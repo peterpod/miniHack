@@ -9,9 +9,11 @@
   "author": "Peter",
   "license": "ISC",
   "dependencies": {
-  	"body-parser": "^1.9.2",
+    "body-parser": "^1.13.3",
     "express": "^4.10.2",
-    "morgan": "^1.5.0",
-    "mongodb": "^1.4.19"
+    "method-override": "^2.3.5",
+    "mongodb": "^1.4.19",
+    "mongoose": "^4.1.5",
+    "morgan": "^1.5.0"
   }
 }
