@@ -1,27 +1,8 @@
 var mongoose = require("mongoose"),
     express = require('express'),
-    router = express.Router(),
+    router = express.Router();
     
     User = require('../models/user');
-
-// New user page
-router.get('/new', function(req, res) {
-    res.render('users/new', { "pageName": "Users"});
-});
-
-// Create a user
-router.post('', function(req, res) {
-  User.create({
-      firstname:req.body.firstname,
-      lastname:req.body.lastname
-    }, function(err,user) {
-      if (err) { res.send('POST user/ error: ' + err)}
-      else {
-        res.location("users");
-        res.redirect("/users/" + user._id);
-        }
-      });
-  });
 
 // Find all users
 router.get('/', function(req, res) {
@@ -30,7 +11,8 @@ router.get('/', function(req, res) {
       return console.error(err);
     } else {
       res.render('users/index', { "pageName": "Users",
-                                        "users": users });
+                                  "currentUser" : req.user,
+                                  "users": users });
     }
   });
 });
@@ -57,6 +39,7 @@ router.route('/:id')
         } else {
           res.render('users/show', {
             "pageName": "Users",
+            "currentUser": req.user,
             "user": user
           })
         }
@@ -67,6 +50,7 @@ router.route('/:id')
       User.findByIdAndUpdate(
           req.params.id,
           {
+            username:req.body.username,
             firstname:req.body.firstname,
             lastname:req.body.lastname
           },
@@ -100,6 +84,7 @@ router.get('/:id/edit', function(req, res) {
         } else {
           res.render('users/edit', {
                          "pageName": "Users",
+                         "currentUser" : req.user,
                           "user" : user
                       });
                  }

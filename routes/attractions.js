@@ -19,6 +19,7 @@ router.post('/', function(req, res) {
       else {
         res.location("attractions");
         res.redirect("/attractions/show", {"pageName": "Attractions",
+                                           "currentUser": req.user,
                                            "attraction": attraction});
         }
       });
@@ -31,6 +32,7 @@ router.get('/', function(req, res) {
       return console.error(err);
     } else {
       res.render('attractions/index', { "pageName": "Attractions",
+                                        "currentUser": req.user,
                                         "attractions": attractions });
     }
   });
@@ -58,7 +60,8 @@ router.route('/:id')
         } else {
           res.render('attractions/show', {
             "pageName": "Attractions",
-            "attraction": attraction
+            "attraction": attraction,
+            "currentUser": req.user
           })
         }
       });
@@ -99,7 +102,8 @@ router.get('/:id/edit', function(req, res) {
         } else {
           res.render('attractions/edit', {
                          "pageName": "Attractions",
-                          "attraction" : attraction
+                         "attraction" : attraction,
+                         "currentUser": req.user
                       });
                  }
             });

@@ -24,8 +24,15 @@ html
               li
                 a(href=o.url)= o.name
         ul.nav.navbar-nav.navbar-right
-          li
-            a(href="/users/new") Signup
+          if (!currentUser)
+            li
+              a(href="/login") Login
+            li 
+              a(href="/register") Signup
+          if (currentUser)
+            p.navbar-text Hello, #{currentUser.username}
+            li
+              a(href="/logout") Logout
     .container
       block content
   

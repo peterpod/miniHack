@@ -4,16 +4,25 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
     cookieParser = require('cookie-parser'),
+    session = require('express-session'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'), //used to manipulate POST, DELETE, etc
-    
+    passport = require('passport'),
+    localStrategy = require('passport-local').Strategy,    
+
     attractions = require('./routes/attractions'),
     users = require('./routes/users'),
     home = require('./routes/home'),
     
-    db = require('./models/db');
+    db = require('./models/db'),
+    User = require('./models/user');
     
 var app = express();
+
+// Define where the views can be found.
+app.set('views', __dirname + '/views');
+// Define the view (templating) engine.
+app.set('view engine', 'jade');
 
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
@@ -27,21 +36,26 @@ app.use(methodOverride(function(req, res){
         return method
       }
 }));
-
-app.set('views', __dirname + '/views');
-
 app.use(morgan('tiny'));	// Log requests
 
-// Define the view (templating) engine.
-app.set('view engine', 'jade');
+// Passport User Authentication requirements
+app.use(cookieParser('your secret here'));
+app.use(session({
+    secret: "cookie_secret",
+    //store: sessionStore, // relace default store with connect-mongo session store
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Define that static content such as html is in public directory
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-
-/* 
-	## Example of how to build crud operations with express app ##
-	   The operations are defined in dbRoutes.js which links to the model. */
+// Passport User auth config
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ROUTES
 app.use('/attractions', attractions)
