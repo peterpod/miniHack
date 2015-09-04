@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    h1 New Attraction
+    div.newattraction
+        form(action='/attractions',method="post")
+            div
+                div
+                    span.label Title :
+                    input(type="text", name="title", id="editAttractionTitle")
+                div
+                    span.label Description :
+                    input(type="text", name="description", id="editAttractionName")
+                div#editAttractionSubmit
+                    input(type="submit", value="Save")
+        a(href="/attractions")!= "Back to Attraction List"

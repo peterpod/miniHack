@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  h1.
+    Users
+  ul
+    - each o in users
+      li
+        = o.firstname + ' ' + o.lastname
+        form(action='/users/#{o._id}',method='post',enctype='application/x-www-form-urlencoded')
+          input(type='hidden',value='DELETE',name='_method')
+          button(type='submit').
+            Delete
+        p 
+          a(href='/users/#{o._id}/edit') Edit
+        p
+          a(href='/users/#{o._id}') Show

@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    h1 New User
+    div.newuser
+        form(action='/users',method="post")
+            div
+                div
+                    span.label First Name :
+                    input(type="text", name="firstname", id="editUserFirstname")
+                div
+                    span.label Description :
+                    input(type="text", name="lastname", id="editUserLastname")
+                div#editUserSubmit
+                    input(type="submit", value="Save")
+        a(href="/users")!= "Back to Users List"
