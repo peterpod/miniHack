@@ -31,7 +31,7 @@ router.get('/', function(req, res) {
 router.route('/:id')
      //Show
     .get(function(req, res) {
-      Attraction.find({user: req.user._id}, function(er, attractions) {
+      Attraction.find({user_id: req.user._id}, null, {sort: {"created_at":-1}}, function(er, attractions) {
         if (er) throw er;
         User.findById(req.params.id, function(err,user) {
           if (err) {throw err} else {
@@ -52,7 +52,9 @@ router.route('/:id')
           {
             username:req.body.username,
             firstname:req.body.firstname,
-            lastname:req.body.lastname
+            lastname:req.body.lastname,
+            email:req.body.email,
+            updated_at: Date.now
           },
           function (err, userID) {
             if (err) {

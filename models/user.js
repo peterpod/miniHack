@@ -8,6 +8,8 @@ var userSchema = new Schema({
   username: String,
   password: String,
   zip: String,
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 });
 
 // passport-local-mongoose package takes care of salting/hashing passwords

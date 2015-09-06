@@ -6,6 +6,10 @@ ul
           = o.title
           = o.description
           = o.user_id
+          p First posted at&nbsp;
+            = o.created_at
+          p Last updated at&nbsp;
+            = o.updated_at
           form(action='/attractions/#{o._id}',method='post',enctype='application/x-www-form-urlencoded')
             input(type='hidden',value='DELETE',name='_method')
             button(type='submit').

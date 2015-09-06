@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
     else if (req.query.type == "Food") { subPageName = "Dining" }
     else { subPageName = "Events" };
   };
-	Attraction.find(conditions, function (err,attractions) {
+	Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
@@ -76,20 +76,16 @@ router.post('/', upload.single('photo'), function(req, res) {
   var business = new Array ("Clothing","Electronics");
   var food = new Array ("Truck, Restaurant");
   var type; var photo;
-  if (business.indexOf(category) > -1) {
-    type = "Business";
-  } else if (food.indexOf(category) > -1) {
-    type = "Food";
-  } else {
-    type = "Event";
-  }
+  if (business.indexOf(category) > -1) {type = "Business";}
+  else if (food.indexOf(category) > -1) {type = "Food"; }
+  else { type = "Event"; }
   // Slice the /public off of the file path.
   // Use absolute url of the photo so that the url can be used easily in different levels,
   // i.e attractions (1 level) and users/:id (2 levels).
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
   
   Attraction.create({
-      user:req.user._id,
+      user_id:req.user._id,
       type:type,
       category:req.body.category,
       title:req.body.title,
@@ -115,7 +111,8 @@ router
       Attraction.findById(req.params.id, function(err,attraction) {
         attraction.update({
           title:req.body.title,
-          description:req.body.description
+          description:req.body.description,
+          updated_at: Date.now
         }, function (err, attractionID) {
           if (err) {
             res.send('PUT attraction/:id error: ' + err)

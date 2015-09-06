@@ -12,7 +12,9 @@ var attractionSchema = new Schema({
   zip: String,
   dollar: String,
   photo: String,
-  user: String
+  user_id: String,
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now }
 });
 
 var Attraction = mongoose.model('Attraction', attractionSchema);
