@@ -5,9 +5,16 @@ var mongoose = require("mongoose"),
     User = require('../models/user'),
     Attraction = require('../models/attraction');
 
+// Set the pageName; used for setting navbar links active
+router.use(function(req, res, next){
+    res.locals.pageName = "Users";
+    next();
+});               
+
 // LOGIN CHECK
 router.use(function(req, res, next) {
     if (!req.user){
+        req.flash('warning', "You must be logged in to view that page.");
         res.redirect('/');
     }   else{
         next();
@@ -20,9 +27,7 @@ router.get('/', function(req, res) {
     if (err) {
       return console.error(err);
     } else {
-      res.render('users/index', { "pageName": "Users",
-                                  "currentUser" : req.user,
-                                  "users": users });
+      res.render('users/index', { "users": users });
     }
   });
 });
@@ -36,8 +41,6 @@ router.route('/:id')
         User.findById(req.params.id, function(err,user) {
           if (err) {throw err} else {
             res.render('users/show', {
-              "pageName": "Users",
-              "currentUser": req.user,
               "user": user,
               "attractions": attractions
             })
@@ -85,8 +88,6 @@ router.get('/:id/edit', function(req, res) {
             console.log('GET users/:id/edit error: ' + err);
         } else {
           res.render('users/edit', {
-                         "pageName": "Users",
-                         "currentUser" : req.user,
                           "user" : user
                       });
                  }

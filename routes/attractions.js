@@ -11,6 +11,13 @@ var mongoose = require("mongoose"),
     
     Attraction = require('../models/attraction');
 
+
+// Set the pageName; used for setting navbar links active
+router.use(function(req, res, next){
+    res.locals.pageName = "Attractions";
+    next();
+});
+
 // Find all attractions
 router.get('/', function(req, res) {
   conditions = {};
@@ -26,10 +33,7 @@ router.get('/', function(req, res) {
     if (err) {
       return console.error(err);
     } else {
-      res.render('attractions/index', { "pageName": "Attractions",
-                                        "subPageName": subPageName,
-                                        "currentUser": req.user,
-                                        "attractions": attractions });
+      res.render('attractions/index', { "attractions": attractions, subPageName: subPageName });
     }
   });
 });
@@ -39,8 +43,7 @@ router.get('/', function(req, res) {
 router.get('/new', function(req, res) {
     if (!req.user){ res.redirect('/'); }
     else {
-      res.render('attractions/new', {"pageName": "Attractions",
-                                   "currentUser": req.user});
+      res.render('attractions/new');
     }
 });
 
@@ -53,9 +56,7 @@ router.route('/:id')
           console.log('GET attraction/:id error: ' + err)
         } else {
           res.render('attractions/show', {
-            "pageName": "Attractions",
-            "attraction": attraction,
-            "currentUser": req.user
+            "attraction": attraction
           })
         }
       });
@@ -64,6 +65,7 @@ router.route('/:id')
 // LOGIN CHECK for all following routes
 router.use(function(req, res, next) {
     if (!req.user){
+        req.flash('warning', "You must be logged in to view that page.");
         res.redirect('/');
     }   else{
         next();
@@ -142,9 +144,7 @@ router.get('/:id/edit', function(req, res) {
             console.log('GET attraction/:id/edit error: ' + err);
         } else {
           res.render('attractions/edit', {
-                         "pageName": "Attractions",
-                         "attraction" : attraction,
-                         "currentUser": req.user
+                         "attraction" : attraction
                       });
                  }
             });

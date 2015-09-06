@@ -33,6 +33,11 @@ html
             li
               a(href="/logout") Logout
     .container
+      if (warning_msgs.length > 0)
+        .alert.alert-danger= warning_msgs
+      if (success_msgs.length > 0)
+        .alert.alert-success= success_msgs
+        
       block content
   
       br

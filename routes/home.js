@@ -32,12 +32,14 @@ router.get('/login', function(req, res) {
 router.post('/login', 
   passport.authenticate('local'),
   function(req, res) {
+    req.flash('success','Logged in!');
     res.redirect('/');
 });
 
 // Logout
 router.get('/logout', function(req, res) {
   req.logout();
+  req.flash('success', "Logged out successfully.");
   res.redirect('/');
 });
 
@@ -58,7 +60,7 @@ router.post('/register', function(req, res) {
       if (err) { res.send('POST user/ error: ' + err)}
       else {
         passport.authenticate('local')(req, res, function () {
-          res.location("/");
+          req.flash('success', "You are now logged in. Have fun!");
           res.redirect('/');
         });
       }

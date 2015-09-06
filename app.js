@@ -5,6 +5,7 @@ var express = require('express'),
     morgan = require('morgan'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
+    flash = require('connect-flash'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'), //used to manipulate POST, DELETE, etc
     passport = require('passport'),
@@ -49,6 +50,20 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Flash mesages, done after setting up session and cookie parser
+app.use(flash());
+app.use(function(req, res, next){
+  res.locals.success_msgs = req.flash('success');
+  res.locals.warning_msgs = req.flash('warning');
+  next();
+});
+
+// Make currentUser available everywhere
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // Define that static content such as html is in public directory
 app.use(express.static(path.join(__dirname, 'public')));
