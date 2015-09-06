@@ -21,6 +21,7 @@ router.get('/', function(req, res) {
       return console.error(err);
     } else {
       res.render('attractions/index', { "pageName": "Attractions",
+                                        "subPageName": req.query.type,
                                         "currentUser": req.user,
                                         "attractions": attractions });
     }
