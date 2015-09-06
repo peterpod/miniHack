@@ -7,10 +7,7 @@ block content
     p
       a(href='/login') Login or signup
       span &nbsp;to add your own attraction.
-  if (subPageName)
-    h1= subPageName + 's'
-  if (!subPageName)
-    h1= pageName
+  h1= subPageName || pageName
   ul
     - each o in attractions
       li

@@ -1,27 +1,34 @@
 extends ../layout
 
 block content
-  .jumbotron
-    h1 Feedr
-    br
-    p Welcome to Feedr
+  .jumbotron(style="background-image: url('img/background.jpg');")
+    .well
+      h1 Feedr
+      br
+      p The newsfeed for local shopping and entertainment
       
   .row
     .col-sm-4
       .thumbnail
-        h2 Food
-        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        p
-          a.btn(href="/attractions?type=Food") View details &raquo;
+        img(src="img/food.jpg",alt="Food")
+        .caption
+          h2 Dining
+          p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          p
+            a.btn.btn-lg.btn-primary(href="/attractions?type=Food") View Food Posts &raquo;
     .col-sm-4
       .thumbnail
-        h2 Business
-        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        p
-          a.btn(href="/attractions?type=Business") View details &raquo;
+        img(src="img/business.jpg",alt="Business")
+        .caption
+          h2 Retail
+          p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          p
+            a.btn.btn-lg.btn-primary(href="/attractions?type=Business") View Business Posts &raquo;
     .col-sm-4
       .thumbnail
-        h2 Event
-        p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        p
-          a.btn(href="/attractions?type=Event") View details &raquo;
+        img(src="img/event.jpg",alt="Event")
+        .caption
+          h2 Events
+          p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          p
+            a.btn.btn-lg.btn-primary(href="/attractions?type=Event") View Event Posts &raquo;

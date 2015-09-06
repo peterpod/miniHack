@@ -15,13 +15,17 @@ router.get('/', function(req, res) {
   console.log(req.query);
   if (req.query.type) {
     conditions["type"] = req.query.type;
+    var subPageName;
+    if (req.query.type == "Business") { subPageName = "Retail" }
+    else if (req.query.type == "Food") { subPageName = "Dining" }
+    else { subPageName = "Events" };
   };
 	Attraction.find(conditions, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
       res.render('attractions/index', { "pageName": "Attractions",
-                                        "subPageName": req.query.type,
+                                        "subPageName": subPageName,
                                         "currentUser": req.user,
                                         "attractions": attractions });
     }
