@@ -1,16 +1,35 @@
 extends ../layout
 
 block content
-    h1 New Attraction
-    div.newattraction
-        form(action='/attractions',method="post")
-            div
-                div
-                    span.label Title :
-                    input(type="text", name="title", id="editAttractionTitle")
-                div
-                    span.label Description :
-                    input(type="text", name="description", id="editAttractionName")
-                div#editAttractionSubmit
-                    input(type="submit", value="Save")
-        a(href="/attractions")!= "Back to Attraction List"
+    div.well
+      form(action='/attractions',method="post")
+        h1 New Attraction
+        .form-group
+          select.form-control(type="text", name="type")
+            optgroup(label="Business")
+              option(value="Clothing") Clothing
+              option(value="Restaurant") Restaurant
+            optgroup(label="Food")
+              option(value="Truck") Truck
+              option(value="Restaurant") Restaurant
+            optgroup(label="Event")
+              option(value="Yard Sale") Yard Sale
+              option(value="Performance") Performance
+        .form-group
+          span Title :
+          input.form-control(type="text", name="title", placeholder="Yard Sale in Oakland")
+        .form-group
+          span Description :
+          input.form-control(type='text', name="description", placeholder='')
+        .form-group
+          span Address :
+          input.form-control(type="text", name="address", placeholder="Forbes 5000 Avenue")
+        .form-group
+          span City :
+          input.form-control(type="text", name="city", placeholder="Pittsburgh")
+        .form-group
+          span ZIP :
+          input.form-control(type="text", name="zip", placeholder="15213")
+        .form-group
+          button.btn.btn-lg.btn-primary(type='submit') Save Attraction
+      a.btn.btn-lg.btn-default(href="/attractions")!= "Back to Attraction Feed"

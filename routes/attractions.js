@@ -6,21 +6,26 @@ var mongoose = require("mongoose"),
 
 // New attaction page
 router.get('/new', function(req, res) {
-    res.render('attractions/new', {"pageName": "Attractions"});
+    res.render('attractions/new', {"pageName": "Attractions",
+                                   "currentUser": req.user});
 });
 
 // Create an attraction
 router.post('/', function(req, res) {
-  mongo.model('Attraction').create({
+  Attraction.create({
+      user:req.user,
+      type:req.body.type,
       title:req.body.title,
-      description:req.body.description
+      description:req.body.description,
+      address:req.body.address,
+      city:req.body.city,
+      state:req.body.state,
+      zip:req.body.zip,
+      dollar:req.body.dollar
     }, function(err,attraction) {
       if (err) { res.send('POST attraction/ error: ' + err)}
       else {
-        res.location("attractions");
-        res.redirect("/attractions/show", {"pageName": "Attractions",
-                                           "currentUser": req.user,
-                                           "attraction": attraction});
+        res.redirect("/attractions");
         }
       });
   });

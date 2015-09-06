@@ -26,11 +26,11 @@ html
         ul.nav.navbar-nav.navbar-right
           if (!currentUser)
             li
-              a(href="/login") Login
-            li 
-              a(href="/register") Signup
+              a(href="/login") Login or Signup
           if (currentUser)
             p.navbar-text Hello, #{currentUser.username}
+            li
+              a(href="/users/#{currentUser._id}") My Account
             li
               a(href="/logout") Logout
     .container
