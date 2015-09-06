@@ -2,7 +2,8 @@ var mongoose = require("mongoose"),
     express = require('express'),
     router = express.Router();
     
-    User = require('../models/user');
+    User = require('../models/user'),
+    Attraction = require('../models/attraction');
 
 // LOGIN CHECK
 router.use(function(req, res, next) {
@@ -30,16 +31,18 @@ router.get('/', function(req, res) {
 router.route('/:id')
      //Show
     .get(function(req, res) {
-      User.findById(req.params.id, function(err,user) {
-        if (err) {
-          console.log('GET user/:id error: ' + err)
-        } else {
-          res.render('users/show', {
-            "pageName": "Users",
-            "currentUser": req.user,
-            "user": user
-          })
-        }
+      Attraction.find({user: req.user._id}, function(er, attractions) {
+        if (er) throw er;
+        User.findById(req.params.id, function(err,user) {
+          if (err) {throw err} else {
+            res.render('users/show', {
+              "pageName": "Users",
+              "currentUser": req.user,
+              "user": user,
+              "attractions": attractions
+            })
+          }
+        });
       });
     })
     //Update

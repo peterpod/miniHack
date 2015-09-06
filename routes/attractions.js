@@ -6,6 +6,8 @@ var mongoose = require("mongoose"),
     //File upload requirements
     multer  = require('multer'),
     upload = multer({ dest: 'public/uploads/' }),
+    http = require('http'),
+    url = require('url'),
     
     Attraction = require('../models/attraction');
 
@@ -81,8 +83,11 @@ router.post('/', upload.single('photo'), function(req, res) {
   } else {
     type = "Event";
   }
-  // Slice the /public off of the path
-  if (req.file) { photo = req.file.path.slice(7) };
+  // Slice the /public off of the file path.
+  // Use absolute url of the photo so that the url can be used easily in different levels,
+  // i.e attractions (1 level) and users/:id (2 levels).
+  if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
+  
   Attraction.create({
       user:req.user._id,
       type:type,
