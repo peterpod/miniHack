@@ -7,7 +7,9 @@ var userSchema = new Schema({
   lastname: String,
   username: String,
   password: String,
-  zip: String
+  zip: String,
+  attractions: [],
+  favorites: []
 });
 
 // passport-local-mongoose package takes care of salting/hashing passwords

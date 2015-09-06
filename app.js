@@ -24,6 +24,7 @@ app.set('views', __dirname + '/views');
 // Define the view (templating) engine.
 app.set('view engine', 'jade');
 
+app.use(bodyParser({uploadDir: __dirname + '/public/uploads'})); // Upload photo directory
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
   extended: true
@@ -37,6 +38,7 @@ app.use(methodOverride(function(req, res){
       }
 }));
 app.use(morgan('tiny'));	// Log requests
+
 
 // Passport User Authentication requirements
 app.use(cookieParser('your secret here'));

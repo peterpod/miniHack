@@ -2,7 +2,7 @@ extends ../layout
 
 block content
     div.well
-      form(action='/attractions',method="post")
+      form(action='/attractions',method="post",enctype="multipart/form-data")
         h1 New Attraction
         .form-group
           select.form-control(type="text", name="type")
@@ -30,6 +30,8 @@ block content
         .form-group
           span ZIP :
           input.form-control(type="text", name="zip", placeholder="15213")
+        .form-group
+          input(type="file",name="photo")
         .form-group
           button.btn.btn-lg.btn-primary(type='submit') Save Attraction
       a.btn.btn-lg.btn-default(href="/attractions")!= "Back to Attraction Feed"

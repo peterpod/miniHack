@@ -1,34 +1,14 @@
 var mongoose = require("mongoose"),
     express = require('express'),
     router = express.Router(),
+    bodyParser = require("body-parser"),
+    
+    //File upload requirement
+   
+    multer  = require('multer'),
+    upload = multer({ dest: 'uploads/' }),
     
     Attraction = require('../models/attraction');
-
-// New attaction page
-router.get('/new', function(req, res) {
-    res.render('attractions/new', {"pageName": "Attractions",
-                                   "currentUser": req.user});
-});
-
-// Create an attraction
-router.post('/', function(req, res) {
-  Attraction.create({
-      user:req.user,
-      type:req.body.type,
-      title:req.body.title,
-      description:req.body.description,
-      address:req.body.address,
-      city:req.body.city,
-      state:req.body.state,
-      zip:req.body.zip,
-      dollar:req.body.dollar
-    }, function(err,attraction) {
-      if (err) { res.send('POST attraction/ error: ' + err)}
-      else {
-        res.redirect("/attractions");
-        }
-      });
-  });
 
 // Find all attractions
 router.get('/', function(req, res) {
@@ -39,18 +19,6 @@ router.get('/', function(req, res) {
       res.render('attractions/index', { "pageName": "Attractions",
                                         "currentUser": req.user,
                                         "attractions": attractions });
-    }
-  });
-});
-
-// The remaining routes require :id param is valid, so validate that now
-router.param('id', function(req,res,next,id) {
-  Attraction.findById(id, function (err, attraction) {
-    if (err){
-      // Attraction not found, raise 404
-      next(err)
-    } else {
-      next(); 
     }
   });
 });
@@ -71,6 +39,45 @@ router.route('/:id')
         }
       });
     })
+
+// LOGIN CHECK
+router.use(function(req, res, next) {
+    if (!req.user){
+        res.redirect('/');
+    }   else{
+        next();
+    }
+});
+
+// New attaction page
+router.get('/new', function(req, res) {
+    res.render('attractions/new', {"pageName": "Attractions",
+                                   "currentUser": req.user});
+});
+
+// Create an attraction
+router.post('/', upload.single('photo'), function(req, res) {
+  Attraction.create({
+      user:req.user._id,
+      type:req.body.type,
+      title:req.body.title,
+      description:req.body.description,
+      address:req.body.address,
+      city:req.body.city,
+      state:req.body.state,
+      zip:req.body.zip,
+      dollar:req.body.dollar,
+      photo:req.file.path
+    }, function(err,attraction) {
+      if (err) { res.send('POST attraction/ error: ' + err)}
+      else {
+        res.redirect("/attractions");
+        }
+      });
+  });
+
+//find specific attraction
+router
     //Update
     .put(function(req, res) {
       Attraction.findById(req.params.id, function(err,attraction) {

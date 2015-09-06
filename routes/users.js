@@ -4,6 +4,15 @@ var mongoose = require("mongoose"),
     
     User = require('../models/user');
 
+// LOGIN CHECK
+router.use(function(req, res, next) {
+    if (!req.user){
+        res.redirect('/');
+    }   else{
+        next();
+    }
+});
+
 // Find all users
 router.get('/', function(req, res) {
 	User.find({}, function (err,users) {
@@ -13,18 +22,6 @@ router.get('/', function(req, res) {
       res.render('users/index', { "pageName": "Users",
                                   "currentUser" : req.user,
                                   "users": users });
-    }
-  });
-});
-
-// The remaining routes require :id param is valid, so validate that now
-router.param('id', function(req,res,next,id) {
-  User.findById(id, function (err, user) {
-    if (err){
-      // User not found, raise 404
-      next(err)
-    } else {
-      next(); 
     }
   });
 });

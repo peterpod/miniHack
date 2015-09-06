@@ -12,13 +12,19 @@ block content
   ul
     - each o in attractions
       li
-        = o.title
-        = o.description
-        form(action='/attractions/#{o._id}',method='post',enctype='application/x-www-form-urlencoded')
-          input(type='hidden',value='DELETE',name='_method')
-          button(type='submit').
-            Delete
-        p 
-          a(href='/attractions/#{o._id}/edit') Edit
-        p
-          a(href='/attractions/#{o._id}') Show
+        .row
+          .col-xs-6
+            = o.title
+            = o.description
+            = o.user_id
+            form(action='/attractions/#{o._id}',method='post',enctype='application/x-www-form-urlencoded')
+              input(type='hidden',value='DELETE',name='_method')
+              button(type='submit').
+                Delete
+            p 
+              a(href='/attractions/#{o._id}/edit') Edit
+            p
+              a(href='/attractions/#{o._id}') Show
+          .col-xs-6
+            if (o.photo)
+              img(src=o.photo, alt=o.title ,width='300', height='300')
