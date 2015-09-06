@@ -3,16 +3,20 @@ var mongoose = require("mongoose"),
     router = express.Router(),
     bodyParser = require("body-parser"),
     
-    //File upload requirement
-   
+    //File upload requirements
     multer  = require('multer'),
-    upload = multer({ dest: 'uploads/' }),
+    upload = multer({ dest: 'public/uploads/' }),
     
     Attraction = require('../models/attraction');
 
 // Find all attractions
 router.get('/', function(req, res) {
-	Attraction.find({}, function (err,attractions) {
+  conditions = {};
+  console.log(req.query);
+  if (req.query.type) {
+    conditions["type"] = req.query.type;
+  };
+	Attraction.find(conditions, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
@@ -21,6 +25,16 @@ router.get('/', function(req, res) {
                                         "attractions": attractions });
     }
   });
+});
+
+
+// New attaction page
+router.get('/new', function(req, res) {
+    if (!req.user){ res.redirect('/'); }
+    else {
+      res.render('attractions/new', {"pageName": "Attractions",
+                                   "currentUser": req.user});
+    }
 });
 
 //find specific attraction
@@ -40,7 +54,7 @@ router.route('/:id')
       });
     })
 
-// LOGIN CHECK
+// LOGIN CHECK for all following routes
 router.use(function(req, res, next) {
     if (!req.user){
         res.redirect('/');
@@ -49,17 +63,25 @@ router.use(function(req, res, next) {
     }
 });
 
-// New attaction page
-router.get('/new', function(req, res) {
-    res.render('attractions/new', {"pageName": "Attractions",
-                                   "currentUser": req.user});
-});
-
 // Create an attraction
 router.post('/', upload.single('photo'), function(req, res) {
+  var category = req.body.category;
+  var business = new Array ("Clothing","Electronics");
+  var food = new Array ("Truck, Restaurant");
+  var type; var photo;
+  if (business.indexOf(category) > -1) {
+    type = "Business";
+  } else if (food.indexOf(category) > -1) {
+    type = "Food";
+  } else {
+    type = "Event";
+  }
+  // Slice the /public off of the path
+  if (req.file) { photo = req.file.path.slice(7) };
   Attraction.create({
       user:req.user._id,
-      type:req.body.type,
+      type:type,
+      category:req.body.category,
       title:req.body.title,
       description:req.body.description,
       address:req.body.address,
@@ -67,7 +89,7 @@ router.post('/', upload.single('photo'), function(req, res) {
       state:req.body.state,
       zip:req.body.zip,
       dollar:req.body.dollar,
-      photo:req.file.path
+      photo: photo
     }, function(err,attraction) {
       if (err) { res.send('POST attraction/ error: ' + err)}
       else {

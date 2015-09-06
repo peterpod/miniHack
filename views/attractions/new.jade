@@ -5,10 +5,11 @@ block content
       form(action='/attractions',method="post",enctype="multipart/form-data")
         h1 New Attraction
         .form-group
-          select.form-control(type="text", name="type")
+          span Category :
+          select.form-control(type="text", name="category")
             optgroup(label="Business")
               option(value="Clothing") Clothing
-              option(value="Restaurant") Restaurant
+              option(value="Electronics") Electronics
             optgroup(label="Food")
               option(value="Truck") Truck
               option(value="Restaurant") Restaurant

@@ -5,6 +5,7 @@ var attractionSchema = new Schema({
   title: String,
   description: String,
   type: String,
+  category: String,
   address: String,
   city: String,
   state: String,
