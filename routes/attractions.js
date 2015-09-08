@@ -64,7 +64,7 @@ router.route('/:id')
 // LOGIN CHECK for all following routes
 router.use(function(req, res, next) {
     if (!req.user){
-        req.flash('warning', "You must be logged in to view that page.");
+        req.flash('error', "You must be logged in to view that page.");
         res.redirect('/');
     }   else{
         next();

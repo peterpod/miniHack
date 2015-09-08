@@ -8,9 +8,12 @@ block content
     img(src=user.photo, alt=user.username ,width='300', height='300')
   
   label Username:
-  p #{user.username}
+  p #{user.username || 'N/A'}
   label Name:
-  p #{user.firstname} #{user.lastname}
+  if (user.firstname && user.lastname)
+    p= user.firstname + ' ' + user.lastname
+  else
+    p N/A
   label Email:
   p #{user.email || 'N/A'}
   label Zip:

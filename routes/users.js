@@ -1,5 +1,6 @@
 var mongoose = require("mongoose"),
     express = require('express'),
+    passport = require('passport'),
     router = express.Router();
     
     User = require('../models/user'),
@@ -14,7 +15,7 @@ router.use(function(req, res, next){
 // LOGIN CHECK
 router.use(function(req, res, next) {
     if (!req.user){
-        req.flash('warning', "You must be logged in to view that page.");
+        req.flash('error', "You must be logged in to view that page.");
         res.redirect('/');
     }   else{
         next();
@@ -62,6 +63,7 @@ router.route('/:id')
     })
     //Update
     .post(function(req, res) {
+      // User avatar feature is not yet implemented, requires additional view and route code...
       var photo;
       User.findByIdAndUpdate(
           req.params.id,
@@ -69,17 +71,26 @@ router.route('/:id')
               firstname: req.body.firstname,
               lastname: req.body.lastname,
               username: req.body.username,
-              //password: String,
               zip: req.body.zip,
               email: req.body.email,
               photo: photo,
           },
           function (err, update) {
-            if (err) {
-              res.send('PUT user/:id error: ' + err)
-            } else {
-              req.flash('success', 'Successfully updated account information.');
-              res.redirect("/users/" + req.params.id)
+            if (err) { res.send('PUT user/:id error: ' + err);}
+            else {
+              // Re-register the new username and password
+              User.findById(req.params.id, function(err,user) {
+                  if (err) { res.send('POST user/ error: ' + err)}
+                  else {
+                    //Change password
+                    if (req.body.password) {
+                      user.setPassword(req.body.password);
+                      user.save();
+                    }
+                    req.flash('success', 'Successfully updated account information.');
+                    res.redirect("/users/" + req.params.id);
+                  }
+              });
             }
           }
         );

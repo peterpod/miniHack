@@ -43,13 +43,6 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-// New user page
-router.get('/register', function(req, res) {
-  res.render('home/register', { "pageName": "Register",
-                                "currentUser": req.user
-                                 });
-});
-
 // Create a user and log in as them
 router.post('/register', function(req, res) {
   User.register(new User({
@@ -61,10 +54,12 @@ router.post('/register', function(req, res) {
     }), req.body.password, function(err,user) {
       if (err) { res.send('POST user/ error: ' + err)}
       else {
-        passport.authenticate('local')(req, res, function () {
+        passport.authenticate('local'),
+        // this function is called when successful
+        function (req,res) {
           req.flash('success', "You are now logged in. Have fun!");
           res.redirect('/');
-        });
+        };
       }
   })
 });

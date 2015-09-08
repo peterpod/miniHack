@@ -3,6 +3,6 @@ extends ../layout
 block content
   h1.
     Attraction
-  p Title: #{attraction.title}
-  p Description: #{attraction.description}
+  p Title: #{attraction.title || 'N/A'}
+  p Description: #{attraction.description || 'N/A'}
   p Updated at: #{attraction.updated_at}
