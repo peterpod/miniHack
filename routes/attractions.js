@@ -107,7 +107,7 @@ router.post('/', upload.single('photo'), function(req, res) {
   });
 
 //find specific attraction
-router
+router.route('/:id')
     //Update
     .put(function(req, res) {
       Attraction.findById(req.params.id, function(err,attraction) {
