@@ -42,15 +42,22 @@ router.route('/:id')
       User.findById(req.params.id, function(err,user) {
         if (err) { return console.error(err); }
         else {
-              user.remove(function (err, user){
-                  if (err) {return console.error(err);}
-                  else {
-                      req.logout();
-                      req.flash('success', "Your account has been successfully deleted.");
-                      res.redirect('/');
-                    }
-                });
-              }
+              // Delete associated attractions
+              Attraction.remove({user_id: this.user_id}, function(err) {
+             if (err) {throw err;}
+             else {
+                // Delete user
+                user.remove(function (errTwo, user){
+                    if (errTwo) {return console.error(errTwo);}
+                    else {
+                        req.logout();
+                        req.flash('success', "Your account and your posts have been successfully deleted.");
+                        res.redirect('/');
+                      }
+                  });
+                }
+            });
+        }
       });
     })
     //Update
