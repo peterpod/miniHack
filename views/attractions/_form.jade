@@ -1,0 +1,46 @@
+.form-group
+  label.alert-danger Title :
+  input.form-control(required='', type="text", name="title", placeholder="Yard Sale in Oakland", value=attraction.title)
+  p.help-block Describe your event in a few short words. 
+.form-group
+  label.alert-danger Category :
+  -
+    var all = [{name: "Business", vals: ["Clothing", "Electronics"]},
+               {name: "Food", vals: ["Truck", "Restaurant"]},
+               {name: "Event", vals: ["Yard Sale", "Performance"]}];
+  select.form-control(required='',type="text", name="category")
+    - each o in all
+      optgroup(label=o.name)
+        - each oo in o.vals
+          if (attraction.category == oo)
+            option(value=oo, selected)= oo
+          else
+            option(value=oo)= oo
+  p.help-block
+.form-group
+  label Description :
+  textarea.form-control(type='text', rows='4', cols='50', name="description", value=attraction.description)
+  p.help-block Let people know when and where the event is, and what it's all about.
+.form-group
+  label Address :
+  input.form-control(type="text", name="address", value=attraction.address, placeholder="Forbes 5000 Avenue")
+.form-group
+  label City :
+  input.form-control(type="text", name="city", value=attraction.city, placeholder="Pittsburgh")
+.form-group
+  label.alert-danger ZIP:
+  input.form-control(required='', type="text", value=attraction.zip, name="zip", placeholder="15213")
+  p.help-block The ZIP will be used to determine this event's region. 
+.row
+  if (attraction.photo)
+    .col-xs-6
+      label Current Photo:
+      br
+      img(src=attraction.photo, alt=attraction.title ,width='300', height='300')
+  .col-xs-6
+    .form-group
+      label New Photo
+      input(type="file",name="photo")
+br
+.form-group
+  button.btn.btn-lg.btn-primary(type='submit') Save Attraction
