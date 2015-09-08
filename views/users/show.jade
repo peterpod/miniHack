@@ -21,8 +21,8 @@ block content
   p
     span
       form(action='/users/#{currentUser._id}',method='post',enctype='application/x-www-form-urlencoded')
-      input(type='hidden',value='DELETE',name='_method')
-      button.btn.btn-danger(type='submit').
-        Delete
+        input(type='hidden',value='DELETE',name='_method')
+        button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete your account?');", type='submit').
+          Delete
   
   include ../attractions/_attractions
