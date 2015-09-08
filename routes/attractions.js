@@ -136,9 +136,7 @@ router.post('/', upload.single('photo'), function(req, res) {
 router.post('/:id', upload.single('photo'), function(req, res) {
   var photo;
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
-  Attraction.findById(req.params.id, function(err,attraction) {
-    if (err) { return console.error(err); }
-    else { attraction.update({
+  Attraction.findByIdAndUpdate(req.params.id, {
       category:req.body.category,
       title:req.body.title,
       description:req.body.description,
@@ -148,22 +146,15 @@ router.post('/:id', upload.single('photo'), function(req, res) {
       zip:req.body.zip,
       dollar:req.body.dollar,
       photo: photo
-    }, function (errTwo, update) {
-      if (errTwo) {
-        res.send('PUT attraction/:id error: ' + errTwo)
+    }, function (err, attraction) {
+      if (err) {
+        res.send('PUT attraction/:id error: ' + err)
       } else {
-        Attraction.findById(req.params.id, function(errThree,attractionTwo) {
-          if (errThree) { return console.error(errThree); }
-          else {
-            req.flash('success', '"' + attractionTwo.title + '" successfully updated.');
-            res.redirect("/attractions/" + req.params.id);
-          };
-        });
+        req.flash('success', 'Successfully updated post.');
+        res.redirect("/attractions/" + req.params.id);
       }
     });
-    }
   });
-})
 
 module.exports = router;
 

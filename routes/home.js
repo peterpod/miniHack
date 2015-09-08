@@ -55,7 +55,9 @@ router.post('/register', function(req, res) {
   User.register(new User({
       username:req.body.username,
       firstname:req.body.firstname,
-      lastname:req.body.lastname
+      lastname:req.body.lastname,
+      email:req.body.email,
+      zip:req.body.zip
     }), req.body.password, function(err,user) {
       if (err) { res.send('POST user/ error: ' + err)}
       else {

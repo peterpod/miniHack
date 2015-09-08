@@ -21,17 +21,6 @@ router.use(function(req, res, next) {
     }
 });
 
-// Find all users
-router.get('/', function(req, res) {
-	User.find({}, function (err,users) {
-    if (err) {
-      return console.error(err);
-    } else {
-      res.render('users/index', { "users": users });
-    }
-  });
-});
-
 //find specific user
 router.route('/:id')
      //Show
@@ -48,26 +37,6 @@ router.route('/:id')
         });
       });
     })
-    //Update
-    .put(function(req, res) {
-      User.findByIdAndUpdate(
-          req.params.id,
-          {
-            username:req.body.username,
-            firstname:req.body.firstname,
-            lastname:req.body.lastname,
-            email:req.body.email,
-            updated_at: Date.now
-          },
-          function (err, userID) {
-            if (err) {
-              res.send('PUT user/:id error: ' + err)
-            } else {
-              res.redirect("/users/" + user._id)
-            }
-          }
-        );
-      })
     //DELETE
     .delete(function(req,res) {
       User.findById(req.params.id, function(err,user) {
@@ -75,13 +44,41 @@ router.route('/:id')
         else {
               user.remove(function (err, user){
                   if (err) {return console.error(err);}
-                  else {res.redirect("/users");}
+                  else {
+                      req.logout();
+                      req.flash('success', "Your account has been successfully deleted.");
+                      res.redirect('/');
+                    }
                 });
               }
       });
+    })
+    //Update
+    .put(function(req, res) {
+      var photo;
+      User.findByIdAndUpdate(
+          req.params.id,
+          {
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              username: req.body.username,
+              //password: String,
+              zip: req.body.zip,
+              email: req.body.email,
+              photo: photo,
+          },
+          function (err, update) {
+            if (err) {
+              res.send('PUT user/:id error: ' + err)
+            } else {
+              req.flash('success', 'Successfully updated account information.');
+              res.redirect("/users/" + req.params.id)
+            }
+          }
+        );
     });
 
-// Edit attraction page
+// Edit account page
 router.get('/:id/edit', function(req, res) {
     User.findById(req.params.id, function (err, user) {
         if (err) {
@@ -93,6 +90,18 @@ router.get('/:id/edit', function(req, res) {
                  }
             });
         });
+
+// Find all users
+// CURRENTLY UNUSED
+router.get('/', function(req, res) {
+	User.find({}, function (err,users) {
+    if (err) {
+      return console.error(err);
+    } else {
+      res.render('users/index', { "users": users });
+    }
+  });
+});
 
 module.exports = router;
 
