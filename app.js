@@ -78,8 +78,9 @@ app.use('/attractions', attractions)
 app.use('/users', users)
 app.use('/', home)
 
+var port = 50000;
 // specified port for running app
-app.listen(50000);
+app.listen(port);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -110,5 +111,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
+console.log('Running successfully on localhost:' + port);
 
 module.exports = app;
