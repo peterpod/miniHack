@@ -101,6 +101,7 @@ router.post('/', upload.single('photo'), function(req, res) {
     }, function(err,attraction) {
       if (err) { res.send('POST attraction/ error: ' + err)}
       else {
+        req.flash('success', attraction.title.type + ' "' + attraction.title.description + '" successfully posted.');
         res.redirect("/attractions");
         }
       });
