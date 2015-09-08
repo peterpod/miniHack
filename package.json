@@ -9,6 +9,7 @@
   "author": "Peter",
   "license": "ISC",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.3",
     "bson": "^0.4.11",
     "connect-flash": "^0.1.1",

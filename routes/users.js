@@ -78,22 +78,20 @@ router.route('/:id')
           function (err, update) {
             if (err) { res.send('PUT user/:id error: ' + err);}
             else {
-              // Re-register the new username and password
-              User.findById(req.params.id, function(err,user) {
-                  if (err) { res.send('POST user/ error: ' + err)}
-                  else {
-                    //Change password
-                    if (req.body.password) {
-                      user.setPassword(req.body.password);
-                      user.save();
-                    }
-                    req.flash('success', 'Successfully updated account information.');
-                    res.redirect("/users/" + req.params.id);
-                  }
-              });
-            }
-          }
-        );
+              // Trigger appropriate callback with save() (not update) to hash password correctly, if passwd changed;
+              User.findById(req.params.id, function(errTwo, user){
+                if (req.body.password) {
+                  user.password = req.body.password;
+                  user.save(function(errThree) {
+                  if (errThree) { res.send('PUT user/:id error: ' + errThree); }
+                });
+                // Continue as normal
+                req.flash('success', 'Successfully updated account information.');
+                res.redirect("/users/" + req.params.id);
+                };
+              })
+           }
+      });
     });
 
 // Edit account page

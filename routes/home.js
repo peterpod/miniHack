@@ -30,7 +30,7 @@ router.get('/login', function(req, res) {
 
 // Login post action
 router.post('/login', 
-  passport.authenticate('local'),
+  passport.authenticate('local', {failureRedirect: '/login', failureFlash: true}),
   function(req, res) {
     req.flash('success','Logged in!');
     res.redirect('/');
@@ -45,23 +45,24 @@ router.get('/logout', function(req, res) {
 
 // Create a user and log in as them
 router.post('/register', function(req, res) {
-  User.register(new User({
+  var user = new User( {
       username:req.body.username,
       firstname:req.body.firstname,
+      password:req.body.password,
       lastname:req.body.lastname,
       email:req.body.email,
       zip:req.body.zip
-    }), req.body.password, function(err,user) {
+    });
+  
+  user.save(function(err) {
       if (err) { res.send('POST user/ error: ' + err)}
       else {
-        passport.authenticate('local'),
-        // this function is called when successful
-        function (req,res) {
+        req.logIn(user, function(errTwo) {
           req.flash('success', "You are now logged in. Have fun!");
           res.redirect('/');
-        };
-      }
-  })
+        });
+      };
+  });
 });
 
 
