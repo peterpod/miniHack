@@ -25,7 +25,7 @@ router.get('/contact',function(req, res) {
 
 // Login get page
 router.get('/login', function(req, res) {
-  res.render('home/login', { "currentUser": req.user });
+  res.render('home/login', { "currentUser": req.user, "user": {} });
 });
 
 // Login post action

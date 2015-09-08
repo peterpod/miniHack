@@ -2,9 +2,27 @@ extends ../layout
 
 block content
   h1.
-    User
-  p Username: #{user.username}
-  p Name: #{user.firstname} #{user.lastname}
-  p Zip: #{user.zip}
+    Account Settings
+    
+  if (user.photo)
+    img(src=user.photo, alt=user.username ,width='300', height='300')
+  
+  label Username:
+  p #{user.username}
+  label Name:
+  p #{user.firstname} #{user.lastname}
+  label Email:
+  p #{user.email || 'N/A'}
+  label Zip:
+  p #{user.zip || 'N/A'}
+  p
+    span
+      a.btn.btn-primary(href='/users/#{currentUser._id}/edit') Edit
+  p
+    span
+      form(action='/users/#{currentUser._id}',method='post',enctype='application/x-www-form-urlencoded')
+      input(type='hidden',value='DELETE',name='_method')
+      button.btn.btn-danger(type='submit').
+        Delete
   
   include ../attractions/_attractions

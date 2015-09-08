@@ -54,7 +54,7 @@ router.route('/:id')
       });
     })
     //Update
-    .put(function(req, res) {
+    .post(function(req, res) {
       var photo;
       User.findByIdAndUpdate(
           req.params.id,
