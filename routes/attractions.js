@@ -131,7 +131,10 @@ router.route('/:id')
         else {
               attraction.remove(function (err, attraction){
                   if (err) {return console.error(err);}
-                  else {res.redirect("/attractions");}
+                  else {
+                    req.flash('success', attraction.title.type + ' "' + attraction.title.description + '" successfully deleted.');
+                    res.redirect("/attractions");
+                    }
                 });
               }
       });
