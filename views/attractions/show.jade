@@ -1,8 +1,7 @@
 extends ../layout
 
 block content
-  h1.
-    Attraction
-  p Title: #{attraction.title || 'N/A'}
-  p Description: #{attraction.description || 'N/A'}
-  p Updated at: #{attraction.updated_at}
+  include _attraction
+  
+  p
+    a.btn.btn-primary(href='/attractions/') Back to Attractions
