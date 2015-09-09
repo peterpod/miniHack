@@ -20,7 +20,6 @@ router.use(function(req, res, next){
 // Find all attractions
 router.get('/', function(req, res) {
   conditions = {};
-  console.log(req.query);
   if (req.query.type) {
     conditions["type"] = req.query.type;
     var subPageName;
@@ -55,7 +54,8 @@ router.route('/:id')
           console.log('GET attraction/:id error: ' + err)
         } else {
           res.render('attractions/show', {
-            "attraction": attraction
+            "attraction": attraction,
+            subPageName: "AttractionShow"
           })
         }
       });
@@ -102,6 +102,13 @@ router.delete('/:id', function(req,res) {
 
 // Create an attraction
 router.post('/', upload.single('photo'), function(req, res) {
+  var type;
+  var business = new Array ("Clothing","Electronics"),
+      food = new Array ("Truck", "Restaurant");
+  if (business.indexOf(req.body.category) > -1) {type = "Business"}
+  else if (food.indexOf(req.body.category) > -1) {type = "Food" }
+  else { type = "Event" }
+  
   // Slice the /public off of the file path.
   // Use absolute url of the photo so that the url can be used easily in different levels,
   // i.e attractions (1 level) and users/:id (2 levels).
@@ -113,6 +120,7 @@ router.post('/', upload.single('photo'), function(req, res) {
   };
   Attraction.create({
       user_id:req.user._id,
+      type:type,
       category:req.body.category,
       title:req.body.title,
       description:req.body.description,
@@ -134,9 +142,17 @@ router.post('/', upload.single('photo'), function(req, res) {
 
 //Update attraction
 router.post('/:id', upload.single('photo'), function(req, res) {
+  var type;
+  var business = new Array ("Clothing","Electronics"),
+      food = new Array ("Truck", "Restaurant");
+  if (business.indexOf(req.body.category) > -1) {type = "Business"}
+  else if (food.indexOf(req.body.category) > -1) {type = "Food" }
+  else { type = "Event"; }
+  
   var photo;
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
   Attraction.findByIdAndUpdate(req.params.id, {
+      type:type,
       category:req.body.category,
       title:req.body.title,
       description:req.body.description,
@@ -145,7 +161,8 @@ router.post('/:id', upload.single('photo'), function(req, res) {
       state:req.body.state,
       zip:req.body.zip,
       dollar:req.body.dollar,
-      photo: photo
+      photo: photo,
+      updated_at: new Date()
     }, function (err, attraction) {
       if (err) {
         res.send('PUT attraction/:id error: ' + err)
