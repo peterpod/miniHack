@@ -13,4 +13,7 @@ block content
         a(href='/login') Login or signup
         span &nbsp;to add your own attraction.
   h1= subPageName || pageName
+  if (searchText)
+    p
+      i Showing only results matching search term "#{searchText}"
   include _attractions

@@ -22,6 +22,11 @@ html
             else
               li
                 a(href=o.url)= o.name
+        form.navbar-form.navbar-left(action='/attractions/')
+          .form-group
+            input.form-control(type="text",name='search',method="get",placeholder="Search",size='36')
+            button.btn.btn-primary.btn-sm(type="submit")
+              .glyphicon.glyphicon-search
         ul.nav.navbar-nav.navbar-right
           if (!currentUser)
             li

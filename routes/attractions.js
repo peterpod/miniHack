@@ -24,18 +24,24 @@ router.use(function(req, res, next){
 // Find all attractions
 router.get('/', function(req, res) {
   conditions = {};
+  var subPageName;
   if (req.query.type) {
     conditions["type"] = req.query.type;
-    var subPageName;
     if (req.query.type == "Business") { subPageName = "Retail" }
     else if (req.query.type == "Food") { subPageName = "Dining" }
     else { subPageName = "Events" };
   };
+  var searchText = req.query.search;
+  if (searchText) {
+    conditions["$text"]= {"$search": searchText};
+  }
   Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
-      res.render('attractions/index', { "attractions": attractions, subPageName: subPageName });
+      res.render('attractions/index', { "attractions": attractions,
+                                         subPageName: subPageName,
+                                         searchText: searchText});
     }
   });
 });
