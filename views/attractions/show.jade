@@ -1,7 +1,11 @@
 extends ../layout
 
 block content
-  include _attraction
+  .row
+    .col-xs-6
+      include _attraction
+    .col-xs-6
+      img(src=mapUrl,alt='Attraction Google Map')
   
   p
     a.btn.btn-primary(href='/attractions/') Back to Attractions

@@ -3,6 +3,10 @@ var mongoose = require("mongoose"),
   router = express.Router(),
   bodyParser = require("body-parser"),
   
+  //googleMap
+  GoogleMapsAPI = require('googlemaps'),
+  gmAPI = new GoogleMapsAPI({key: 'AIzaSyAWOX0x9Fw0HbQf4zr-BiL8i__Dqr-Glr4', stagger_time: 1000});
+  
   //File upload requirements
   multer  = require('multer'),
   upload = multer({ dest: 'public/uploads/' }),
@@ -51,15 +55,25 @@ router.route('/:id')
     .get(function(req, res) {
       Attraction.findById(req.params.id, function(err,attraction) {
         if (err) {
-          console.log('GET attraction/:id error: ' + err)
+          console.log('GET attraction/:id error: ' + err);
         } else {
-          res.render('attractions/show', {
+            // geocode API
+            mapUrl = gmAPI.staticMap({size:'500x400',zoom: 14,
+                                     markers: [{
+                                                  location: (attraction.address || '') + ' ' + attraction.zip,
+                                                  label   : '',
+                                                  color   : 'red',
+                                                  shadow  : true
+                                                }],
+                                     center: attraction.address + ' ' + attraction.zip});
+            console.log(mapUrl);
+            res.render('attractions/show', {
+              mapUrl: mapUrl,
             "attraction": attraction,
-            subPageName: "AttractionShow"
-          })
+            subPageName: "AttractionShow"});
         }
       });
-    })
+    });
 
 // LOGIN CHECK for all following routes
 router.use(function(req, res, next) {
