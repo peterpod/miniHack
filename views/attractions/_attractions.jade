@@ -5,6 +5,11 @@ ul
         .col-xs-6
           = o.title
           = o.description
+          if (typeof user !== 'undefined' && user)
+            if(user.starredAttraction.indexOf(o._id) >= 0)
+              a(href='/users/#{user._id}/attraction/#{o._id}/remove') Remove from Favorites
+            else
+              a(href='/users/#{user._id}/attraction/#{o._id}/add') Add to Favorite
           = o.user_id
           p First posted at&nbsp;
             = o.created_at
@@ -14,7 +19,7 @@ ul
             input(type='hidden',value='DELETE',name='_method')
             button(type='submit').
               Delete
-          p 
+          p
             a(href='/attractions/#{o._id}/edit') Edit
           p
             a(href='/attractions/#{o._id}') Show

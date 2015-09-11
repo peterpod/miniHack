@@ -2,13 +2,13 @@ var mongoose = require("mongoose"),
     express = require('express'),
     router = express.Router(),
     bodyParser = require("body-parser"),
-    
+
     //File upload requirements
     multer  = require('multer'),
     upload = multer({ dest: 'public/uploads/' }),
     http = require('http'),
     url = require('url'),
-    
+
     Attraction = require('../models/attraction');
 
 
@@ -21,19 +21,22 @@ router.use(function(req, res, next){
 // Find all attractions
 router.get('/', function(req, res) {
   conditions = {};
-  console.log(req.query);
+  // console.log(req.query);
+  // console.log(req);
   if (req.query.type) {
     conditions["type"] = req.query.type;
     var subPageName;
     if (req.query.type == "Business") { subPageName = "Retail" }
     else if (req.query.type == "Food") { subPageName = "Dining" }
-    else { subPageName = "Events" };
+    else { subPageName = "Events" }
   };
 	Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
-      res.render('attractions/index', { "attractions": attractions, subPageName: subPageName });
+      console.log(req.user);
+      console.log(attractions);
+      res.render('attractions/index', { "attractions": attractions, "user": req.user, subPageName: subPageName });
     }
   });
 });
@@ -56,7 +59,8 @@ router.route('/:id')
           console.log('GET attraction/:id error: ' + err)
         } else {
           res.render('attractions/show', {
-            "attraction": attraction
+            "attraction": attraction,
+            "user": req.user
           })
         }
       });
@@ -85,7 +89,7 @@ router.post('/', upload.single('photo'), function(req, res) {
   // Use absolute url of the photo so that the url can be used easily in different levels,
   // i.e attractions (1 level) and users/:id (2 levels).
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
-  
+
   Attraction.create({
       user_id:req.user._id,
       type:type,
@@ -136,7 +140,7 @@ router
               }
       });
     });
-    
+
 // Edit attraction page
 router.get('/:id/edit', function(req, res) {
     Attraction.findById(req.params.id, function (err, attraction) {
@@ -151,4 +155,3 @@ router.get('/:id/edit', function(req, res) {
         });
 
 module.exports = router;
-

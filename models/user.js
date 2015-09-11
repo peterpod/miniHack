@@ -8,7 +8,7 @@ var userSchema = new Schema({
   username: String,
   password: String,
   zip: String,
-  starredAttraction: {type:[Number], default: []},
+  starredAttraction: {type:[String], default: []},
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });
