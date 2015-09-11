@@ -9,6 +9,19 @@
       = attraction.state + ' '
     if (attraction.zip)
       = attraction.zip
+    if (typeof user !== 'undefined' && user)
+      if(user.starredAttraction.indexOf(attraction._id) >= 0)
+        a(href='/users/#{user._id}/attraction/#{attraction._id}/remove') Remove from Favorites
+      else
+        a(href='/users/#{user._id}/attraction/#{attraction._id}/add') Add to Favorite
+        
+    p price range
+      if (attraction.dollar_low && attraction.dollar_high)
+      p
+        |&nbsp;
+        = attraction.dollar_low 
+        |&nbsp;to&nbsp; 
+        = attraction.dollar_high
   p
     label Category:&nbsp;
     = attraction.category
