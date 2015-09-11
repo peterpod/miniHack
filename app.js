@@ -55,7 +55,7 @@ app.use(passport.session());
 app.use(flash());
 app.use(function(req, res, next){
   res.locals.success_msgs = req.flash('success');
-  res.locals.warning_msgs = req.flash('warning');
+  res.locals.error_msgs = req.flash('error');
   next();
 });
 
@@ -69,17 +69,37 @@ app.use(function(req, res, next){
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport User auth config
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use(new localStrategy(function(username, password, done) {
+  User.findOne({ username: username }, function(err, user) {
+    if (err) return done(err);
+    if (!user) return done(null, false, { message: 'Incorrect username.' });
+    user.comparePassword(password, function(err, isMatch) {
+      if (isMatch) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+    });
+  });
+}));
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 // ROUTES
 app.use('/attractions', attractions)
 app.use('/users', users)
 app.use('/', home)
 
+var port = 50000;
 // specified port for running app
-app.listen(50000);
+app.listen(port);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -110,5 +130,6 @@ app.use(function(err, req, res, next) {
     });
 });
 
+console.log('Running successfully on localhost:' + port);
 
 module.exports = app;

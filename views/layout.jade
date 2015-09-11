@@ -22,6 +22,11 @@ html
             else
               li
                 a(href=o.url)= o.name
+        form.navbar-form.navbar-left(action='/attractions/')
+          .form-group
+            input.form-control(type="text",name='search',method="get",placeholder="Search",size='36')
+            button.btn.btn-primary.btn-sm(type="submit")
+              .glyphicon.glyphicon-search
         ul.nav.navbar-nav.navbar-right
           if (!currentUser)
             li
@@ -33,8 +38,8 @@ html
             li
               a(href="/logout") Logout
     .container
-      if (warning_msgs.length > 0)
-        .alert.alert-danger= warning_msgs
+      if (error_msgs.length > 0)
+        .alert.alert-danger= error_msgs
       if (success_msgs.length > 0)
         .alert.alert-success= success_msgs
         
