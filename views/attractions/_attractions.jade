@@ -6,7 +6,7 @@ ul
           = o.title
           = o.description
           if (typeof user !== 'undefined' && user)
-            if(user.starredAttraction.indexOf(o._id) > 0)
+            if(user.starredAttraction.indexOf(o._id) >= 0)
               a(href='/users/#{user._id}/attraction/#{o._id}/remove') Remove from Favorites
             else
               a(href='/users/#{user._id}/attraction/#{o._id}/add') Add to Favorite
