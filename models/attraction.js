@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-    
+
 var attractionSchema = new Schema({
   title: String,
   description: String,
@@ -10,7 +10,8 @@ var attractionSchema = new Schema({
   city: String,
   state: String,
   zip: String,
-  dollar: String,
+  dollar_low: String,
+  dollar_high: String,
   photo: String,
   user_id: String,
   created_at: { type: Date, default: Date.now },

@@ -5,19 +5,41 @@ ul
         .col-xs-6
           = o.title
           = o.description
+          if (typeof user !== 'undefined' && user)
+            if(user.starredAttraction.indexOf(o._id) >= 0)
+              a(href='/users/#{user._id}/attraction/#{o._id}/remove') Remove from Favorites
+            else
+              a(href='/users/#{user._id}/attraction/#{o._id}/add') Add to Favorite
           = o.user_id
           p First posted at&nbsp;
             = o.created_at
           p Last updated at&nbsp;
             = o.updated_at
+          
+          p price range
+            if (o.dollar_low && o.dollar_high)
+            p
+              |&nbsp;
+              = o.dollar_low 
+              |&nbsp;to&nbsp; 
+              = o.dollar_high
+            
           form(action='/attractions/#{o._id}',method='post',enctype='application/x-www-form-urlencoded')
             input(type='hidden',value='DELETE',name='_method')
             button(type='submit').
               Delete
-          p 
+          p
             a(href='/attractions/#{o._id}/edit') Edit
           p
             a(href='/attractions/#{o._id}') Show
         .col-xs-6
           if (o.photo)
             img(src=o.photo, alt=o.title ,width='300', height='300')
+            
+
+if ((!attractions) || (!attractions.length))
+  p No posts yet!
+else
+  ul(style="list-style-type: none; padding: 0;")
+    - each attraction in attractions
+      include _attraction

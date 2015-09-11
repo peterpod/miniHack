@@ -25,20 +25,6 @@ block content
           h1 Sign up
           p Not yet registered? Signing up is easy and free.
         .col-xs-8.col-xs-offset-1
-          .form-group
-            span Username :
-            input.form-control(type="text", name="username", placeholder="janedoeuser")
-          .form-group
-            span Password :
-            input.form-control(type='password', name="password", placeholder='')
-          .form-group
-            span Email :
-            input.form-control(type="text", name="email", placeholder="janedoeuser@gmail.com")
-          .form-group
-            span First Name :
-            input.form-control(type="text", name="firstname", placeholder="Jane")
-          .form-group
-            span Last Name :
-            input.form-control(type="text", name="lastname", placeholder="Doe")
+          include ../users/_form
           .form-group
             button.btn.btn-lg.btn-primary(type='submit') Register account
