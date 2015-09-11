@@ -1,47 +1,6 @@
 extends ../layout
 
 block content
-    div.well
-      form(action='/attractions',method="post",enctype="multipart/form-data")
-        h1 New Attraction
-        .form-group
-          span Category :
-          select.form-control(type="text", name="category")
-            optgroup(label="Business")
-              option(value="Clothing") Clothing
-              option(value="Electronics") Electronics
-            optgroup(label="Food")
-              option(value="Truck") Truck
-              option(value="Restaurant") Restaurant
-            optgroup(label="Event")
-              option(value="Yard Sale") Yard Sale
-              option(value="Performance") Performance
-        .form-group
-          span Title :
-          input.form-control(type="text", name="title", placeholder="Yard Sale in Oakland")
-        .form-group
-          span Description :
-          textarea.form-control(type='text', rows='4', cols='50', name="description", placeholder='')
-        .form-group
-          span Address :
-          input.form-control(type="text", name="address", placeholder="Forbes 5000 Avenue")
-        .form-group
-          span Lowest Price
-          input.form-control(type="text", name="dollar_low", placeholder="5")
-        .form-group
-          span Highest Price
-          input.form-control(type="text", name="dollar_high", placeholder="20")
-        .form-group
-          span City :
-          input.form-control(type="text", name="city", placeholder="Pittsburgh")
-        .form-group
-          span ZIP :
-          input.form-control(type="text", name="zip", placeholder="15213")
-        .form-group
-          input(type="file",name="photo")
-        .form-group
-          button.btn.btn-lg.btn-primary(type='submit') Save Attraction
-      a.btn.btn-lg.btn-default(href="/attractions")!= "Back to Attraction Feed"
   div.well
     h1 New Attraction
     form(action='/attractions',method="post",enctype="multipart/form-data")
