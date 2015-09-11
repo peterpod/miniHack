@@ -6,7 +6,10 @@ ul
           = o.title
           = o.description
           if (typeof user !== 'undefined' && user)
-            a(href='/users/#{user.id}/attraction/#{o.id}') Add to Favorite
+            if(user.starredAttraction.indexOf(o._id) > 0)
+              a(href='/users/#{user._id}/attraction/#{o._id}/remove') Remove from Favorites
+            else
+              a(href='/users/#{user._id}/attraction/#{o._id}/add') Add to Favorite
           = o.user_id
           p First posted at&nbsp;
             = o.created_at

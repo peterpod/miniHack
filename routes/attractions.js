@@ -21,18 +21,21 @@ router.use(function(req, res, next){
 // Find all attractions
 router.get('/', function(req, res) {
   conditions = {};
-  console.log(req.query);
+  // console.log(req.query);
+  // console.log(req);
   if (req.query.type) {
     conditions["type"] = req.query.type;
     var subPageName;
     if (req.query.type == "Business") { subPageName = "Retail" }
     else if (req.query.type == "Food") { subPageName = "Dining" }
-    else { subPageName = "Events" };
+    else { subPageName = "Events" }
   };
 	Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
     } else {
+      console.log(req.user);
+      console.log(attractions);
       res.render('attractions/index', { "attractions": attractions, "user": req.user, subPageName: subPageName });
     }
   });
