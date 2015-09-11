@@ -26,3 +26,11 @@ ul
         .col-xs-6
           if (o.photo)
             img(src=o.photo, alt=o.title ,width='300', height='300')
+            
+
+if ((!attractions) || (!attractions.length))
+  p No posts yet!
+else
+  ul(style="list-style-type: none; padding: 0;")
+    - each attraction in attractions
+      include _attraction
