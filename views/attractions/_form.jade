@@ -34,6 +34,14 @@
   label.alert-danger ZIP:
   input.form-control(required='', type="text", value=attraction.zip, name="zip", placeholder="15213")
   p.help-block The ZIP will be used to determine this event's region. 
+
+.form-group
+  span Lowest Price
+  input.form-control(type="text", name="dollar_low", placeholder="5")
+.form-group
+  span Highest Price
+  input.form-control(type="text", name="dollar_high", placeholder="20")
+  
 .row
   if (attraction.photo)
     .col-xs-6
