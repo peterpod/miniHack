@@ -9,7 +9,7 @@ var userSchema = new Schema({
   username: {type: String, required: true, unique: true},
   password: { type: String, required: true },
   zip: {type: String, required: true, unique: true},
-  starredAttraction: [Number],
+  starredAttraction: {type:[String], default: []},
   email: String,
   photo: String,
   created_at: { type: Date, default: Date.now },

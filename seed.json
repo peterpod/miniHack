@@ -1,5 +1,6 @@
 {
-	"undefined": "localhost/LOCAL_DB_NAME",
-	"dev": "localhost/DEV_DB_NAME",
-	"prod": "localhost/PROD_DB_NAME"
+	"undefined": "localhost/test",
+	"dev": "localhost/test",
+	"prod": "localhost/test",
+	"db": "localhost/test"
 }
