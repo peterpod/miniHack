@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcrypt-nodejs'),
-    passportLocalMongoose = require('passport-local-mongoose'),
     uniqueValidator = require('mongoose-unique-validator');
 var userSchema = new Schema({
   firstname: {type: String, required: true, unique: true},
@@ -16,8 +15,6 @@ var userSchema = new Schema({
   updated_at: { type: Date, default: Date.now }
 });
 
-// passport-local-mongoose package takes care of salting/hashing passwords
-userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(uniqueValidator);
 //taken from http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/
 userSchema.pre('save', function(next) {
