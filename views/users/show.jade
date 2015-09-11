@@ -2,9 +2,33 @@ extends ../layout
 
 block content
   h1.
-    User
-  p Username: #{user.username}
-  p Name: #{user.firstname} #{user.lastname}
-  p Zip: #{user.zip}
+    My Account Settings
+    
+  if (user.photo)
+    img(src=user.photo, alt=user.username ,width='300', height='300')
+  
+  label Username:
+  p #{user.username || 'N/A'}
+  label Name:
+  if (user.firstname && user.lastname)
+    p= user.firstname + ' ' + user.lastname
+  else
+    p N/A
+  label Email:
+  p #{user.email || 'N/A'}
+  label Zip:
+  p #{user.zip || 'N/A'}
+  p
+    a.btn.btn-primary(href='/users/#{currentUser._id}/edit') Edit Account Details
+    form(action='/users/#{currentUser._id}',method='post',enctype='application/x-www-form-urlencoded')
+      input(type='hidden',value='DELETE',name='_method')
+      button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete your account? All posts you have made will be deleted.');", type='submit').
+        Delete Account
+  
+  br
+  h1 My Posts
+  
+  p
+    a.btn.btn-primary(href='/attractions/new') Add New Attraction
   
   include ../attractions/_attractions
