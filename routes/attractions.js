@@ -2,13 +2,13 @@ var mongoose = require("mongoose"),
     express = require('express'),
     router = express.Router(),
     bodyParser = require("body-parser"),
-    
+
     //File upload requirements
     multer  = require('multer'),
     upload = multer({ dest: 'public/uploads/' }),
     http = require('http'),
     url = require('url'),
-    
+
     Attraction = require('../models/attraction');
 
 
@@ -85,7 +85,7 @@ router.post('/', upload.single('photo'), function(req, res) {
   // Use absolute url of the photo so that the url can be used easily in different levels,
   // i.e attractions (1 level) and users/:id (2 levels).
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
-  
+
   Attraction.create({
       user_id:req.user._id,
       type:type,
@@ -96,7 +96,8 @@ router.post('/', upload.single('photo'), function(req, res) {
       city:req.body.city,
       state:req.body.state,
       zip:req.body.zip,
-      dollar:req.body.dollar,
+      dollar_low:req.body.dollar_low,
+      dollar_high:req.body.dollar_high,
       photo: photo
     }, function(err,attraction) {
       if (err) { res.send('POST attraction/ error: ' + err)}
@@ -136,7 +137,7 @@ router
               }
       });
     });
-    
+
 // Edit attraction page
 router.get('/:id/edit', function(req, res) {
     Attraction.findById(req.params.id, function (err, attraction) {
@@ -151,4 +152,3 @@ router.get('/:id/edit', function(req, res) {
         });
 
 module.exports = router;
-
