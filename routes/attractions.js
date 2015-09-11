@@ -2,17 +2,17 @@ var mongoose = require("mongoose"),
   express = require('express'),
   router = express.Router(),
   bodyParser = require("body-parser"),
-  
+
   //googleMap
   GoogleMapsAPI = require('googlemaps'),
   gmAPI = new GoogleMapsAPI({key: 'AIzaSyAWOX0x9Fw0HbQf4zr-BiL8i__Dqr-Glr4', stagger_time: 1000});
-  
+
   //File upload requirements
   multer  = require('multer'),
   upload = multer({ dest: 'public/uploads/' }),
   http = require('http'),
   url = require('url'),
-  
+
   Attraction = require('../models/attraction');
 
 // Set the pageName; used for setting navbar links active
@@ -29,7 +29,7 @@ router.get('/', function(req, res) {
     conditions["type"] = req.query.type;
     if (req.query.type == "Business") { subPageName = "Retail" }
     else if (req.query.type == "Food") { subPageName = "Dining" }
-    else { subPageName = "Events" };
+    else { subPageName = "Events" }
   };
   var searchText = req.query.search;
   if (searchText) {
@@ -40,6 +40,7 @@ router.get('/', function(req, res) {
       return console.error(err);
     } else {
       res.render('attractions/index', { "attractions": attractions,
+                                        "user": req.user,
                                          subPageName: subPageName,
                                          searchText: searchText});
     }
@@ -50,7 +51,7 @@ router.get('/', function(req, res) {
 router.get('/new', function(req, res) {
     if (!req.user){ res.redirect('/'); }
     else {
-      res.render('attractions/new', 
+      res.render('attractions/new',
                   { "attraction" : {}} );
     }
 });
@@ -76,6 +77,7 @@ router.route('/:id')
             res.render('attractions/show', {
               mapUrl: mapUrl,
             "attraction": attraction,
+            "user": req.user,
             subPageName: "AttractionShow"});
         }
       });
@@ -128,7 +130,7 @@ router.post('/', upload.single('photo'), function(req, res) {
   if (business.indexOf(req.body.category) > -1) {type = "Business"}
   else if (food.indexOf(req.body.category) > -1) {type = "Food" }
   else { type = "Event" }
-  
+
   // Slice the /public off of the file path.
   // Use absolute url of the photo so that the url can be used easily in different levels,
   // i.e attractions (1 level) and users/:id (2 levels).
@@ -168,7 +170,7 @@ router.post('/:id', upload.single('photo'), function(req, res) {
   if (business.indexOf(req.body.category) > -1) {type = "Business"}
   else if (food.indexOf(req.body.category) > -1) {type = "Food" }
   else { type = "Event"; }
-  
+
   var photo;
   if (req.file) { photo = 'http://' + req.headers.host + '/' + req.file.path.slice(7) };
   Attraction.findByIdAndUpdate(req.params.id, {
@@ -191,7 +193,19 @@ router.post('/:id', upload.single('photo'), function(req, res) {
         res.redirect("/attractions/" + req.params.id);
       }
     });
+
+// Edit attraction page
+router.get('/:id/edit', function(req, res) {
+    Attraction.findById(req.params.id, function (err, attraction) {
+        if (err) {
+            console.log('GET attraction/:id/edit error: ' + err);
+        } else {
+          res.render('attractions/edit', {
+                         "attraction" : attraction
+                      });
+                 }
+            });
+        });
   });
 
 module.exports = router;
-

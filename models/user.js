@@ -1,13 +1,14 @@
 var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
     bcrypt = require('bcrypt-nodejs'),
-    Schema = mongoose.Schema;
-    
+    passportLocalMongoose = require('passport-local-mongoose');
 var userSchema = new Schema({
   firstname: String,
   lastname: String,
   username: String,
   password: String,
   zip: String,
+  starredAttraction: [String],
   email: String,
   photo: String,
   created_at: { type: Date, default: Date.now },
