@@ -1,7 +1,15 @@
 var mongoose = require("mongoose"),
-  express = require('express'),
-  router = express.Router(),
-  bodyParser = require("body-parser"),
+    express = require('express'),
+    router = express.Router(),
+    bodyParser = require("body-parser"),
+
+    //File upload requirements
+    multer  = require('multer'),
+    upload = multer({ dest: 'public/uploads/' }),
+    http = require('http'),
+    url = require('url'),
+
+    Attraction = require('../models/attraction');
 
   //googleMap
   GoogleMapsAPI = require('googlemaps'),
@@ -150,7 +158,8 @@ router.post('/', upload.single('photo'), function(req, res) {
       city:req.body.city,
       state:req.body.state,
       zip:req.body.zip,
-      dollar:req.body.dollar,
+      dollar_low:req.body.dollar_low,
+      dollar_high:req.body.dollar_high,
       photo: photo
     }, function(err,attraction) {
       if (err) { res.send('POST attraction/ error: ' + err)}
