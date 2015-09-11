@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+	h1.
+		Attraction ID #{attraction._id}
+	form(action='/attractions/#{attraction._id}',method='post',name='updateattraction',enctype='application/x-www-form-urlencoded')
+		p title:
+			input.form-control(type='text', value='#{attraction.title}', name='title')
+		p Description:
+			input.form-control(type='text', value='#{attraction.description}', name='description')
+		p
+			input.form-control(type='hidden',value='PUT',name='_method')
+		p
+			button#btnSubmit(type='submit').
+				Update

@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    title Feedr
+    //- Was not able to get static CSS to work, so am using external CSS instead
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+    link(rel='stylesheet', href='https://bootswatch.com/paper/_variables.scss')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
+  body
+    -
+      var pageList = [{name:"Home", url: "/"},
+                       {name:"Attractions", url: "/attractions"},
+                       {name:"About", url: "/about"},
+                       {name:"Contact", url: "/contact"}];
+    nav.navbar-default.navbar
+      .container.topnav
+        ul.nav.navbar-nav
+          each o in pageList
+            if (o.name==pageName)
+              li.active
+                a(href=o.url)= o.name
+            else
+              li
+                a(href=o.url)= o.name
+        ul.nav.navbar-nav.navbar-right
+          if (!currentUser)
+            li
+              a(href="/login") Login or Signup
+          if (currentUser)
+            p.navbar-text Hello, #{currentUser.username}
+            li
+              a(href="/users/#{currentUser._id}") My Account
+            li
+              a(href="/logout") Logout
+    .container
+      if (warning_msgs.length > 0)
+        .alert.alert-danger= warning_msgs
+      if (success_msgs.length > 0)
+        .alert.alert-success= success_msgs
+        
+      block content
+  
+      br
+      .well.well-sm
+        footer.footer
+          p.text-center  Copyright (c) 2015
+  
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")

@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  if (currentUser)
+    a.btn.btn-primary(href='/attractions/new') Add New Attraction
+  if (!currentUser)
+    p
+      a(href='/login') Login or signup
+      span &nbsp;to add your own attraction.
+  h1= subPageName || pageName
+  include _attractions
