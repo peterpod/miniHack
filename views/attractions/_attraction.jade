@@ -1,0 +1,46 @@
+.well.well-sm 
+  h2= attraction.title || 'N/A'
+  p
+    if (attraction.address)
+      = attraction.address + ", "
+    if (attraction.city)
+      = attraction.city + ', '
+    if (attraction.state)
+      = attraction.state + ' '
+    if (attraction.zip)
+      = attraction.zip
+  p
+    label Category:&nbsp;
+    = attraction.category
+    i= ' (' + attraction.type+')'
+  p
+    label Description:&nbsp;
+    if (attraction.description)
+      = attraction.description
+    else
+      i No description given.
+  p
+    label Posted at:&nbsp;
+    = attraction.created_at
+  p
+    label Last updated at:&nbsp;
+    = attraction.updated_at
+  
+  if (attraction.photo)
+    label Current Photo:
+    br
+    img(src=attraction.photo, alt=attraction.title ,width='300', height='300')
+  br
+  br
+  p
+    if (subPageName != "AttractionShow")
+      p
+        a.btn.btn-default(href='/attractions/#{attraction._id}') Show Details
+    if (currentUser && currentUser._id == attraction.user_id)
+      p
+        a.btn.btn-primary(href='/attractions/#{attraction._id}/edit') Edit Post
+      p
+        form(action='/attractions/#{attraction._id}',method='post',enctype='application/x-www-form-urlencoded')
+          input(type='hidden',value='DELETE',name='_method')
+          button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete this post?');", type='submit').
+            Delete Post

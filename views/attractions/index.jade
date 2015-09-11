@@ -1,11 +1,19 @@
 extends ../layout
 
 block content
-  if (currentUser)
-    a.btn.btn-primary(href='/attractions/new') Add New Attraction
-  if (!currentUser)
-    p
-      a(href='/login') Login or signup
-      span &nbsp;to add your own attraction.
+  p
+    if (subPageName)
+      p
+        a.btn.btn-default(href='/attractions/') Show All Attractions
+    if (currentUser)
+      p
+        a.btn.btn-primary(href='/attractions/new') Add New Attraction
+    if (!currentUser)
+      p
+        a(href='/login') Login or signup
+        span &nbsp;to add your own attraction.
   h1= subPageName || pageName
+  if (searchText)
+    p
+      i Showing only results matching search term "#{searchText}"
   include _attractions

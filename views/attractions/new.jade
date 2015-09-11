@@ -26,6 +26,12 @@ block content
           span Address :
           input.form-control(type="text", name="address", placeholder="Forbes 5000 Avenue")
         .form-group
+          span Lowest Price
+          input.form-control(type="text", name="dollar_low", placeholder="5")
+        .form-group
+          span Highest Price
+          input.form-control(type="text", name="dollar_high", placeholder="20")
+        .form-group
           span City :
           input.form-control(type="text", name="city", placeholder="Pittsburgh")
         .form-group
@@ -36,3 +42,8 @@ block content
         .form-group
           button.btn.btn-lg.btn-primary(type='submit') Save Attraction
       a.btn.btn-lg.btn-default(href="/attractions")!= "Back to Attraction Feed"
+  div.well
+    h1 New Attraction
+    form(action='/attractions',method="post",enctype="multipart/form-data")
+      include _form
+    a.btn.btn-lg.btn-default(href="/attractions")!= "Back to Attraction Feed"
