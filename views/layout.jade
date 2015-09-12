@@ -10,8 +10,7 @@ html
     -
       var pageList = [{name:"Home", url: "/"},
                        {name:"Attractions", url: "/attractions"},
-                       {name:"About", url: "/about"},
-                       {name:"Contact", url: "/contact"}];
+                       {name:"About", url: "/about"}];
     nav.navbar-default.navbar
       .container.topnav
         ul.nav.navbar-nav
@@ -43,7 +42,8 @@ html
       if (success_msgs.length > 0)
         .alert.alert-success= success_msgs
         
-      block content
+      div(style="font-size:16px;")
+        block content
   
       br
       .well.well-sm

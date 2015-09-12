@@ -40,10 +40,10 @@ li.well.well-sm(style="margin: 5px; width: 330px; vertical-align: top; display: 
       i No description given.
   p
     label Posted at:&nbsp;
-    = attraction.created_at
+    = attraction.created_at.toString().slice(0,15)
   p
     label Last updated at:&nbsp;
-    = attraction.updated_at
+    = attraction.updated_at.toString().slice(0,15)
   
   if (attraction.photo)
     label Current Photo:

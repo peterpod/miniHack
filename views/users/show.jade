@@ -19,6 +19,12 @@ block content
   label Zip:
   p #{user.zip || 'N/A'}
   p
+    label Created account at:&nbsp;
+    = user.created_at.toString().slice(0,15)
+  p
+    label Last updated account at:&nbsp;
+    = user.updated_at.toString().slice(0,15)
+  p
     form(action='/users/#{currentUser._id}',method='post',enctype='application/x-www-form-urlencoded')
       a.btn.btn-primary(href='/users/#{currentUser._id}/edit') Edit Account Details
       span &nbsp;&nbsp;
