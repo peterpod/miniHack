@@ -43,15 +43,23 @@ router.get('/', function(req, res) {
   if (searchText) {
     conditions["$text"]= {"$search": searchText};
   }
-  var category = req.params.category;
+  var category = req.query.category;
   if (category) {
-    conditions["category"]= {"category": category};
+    conditions["category"]= category;
   }
-  var city = req.query.city;
-  if (city) {
-    conditions["city"]= {"city": city};
+  var zip = req.query.zip;
+  if (zip) {
+    conditions["zip"]= zip;
   }
-
+  var dollar_low = req.query.dollar_low;
+  if (dollar_low) {
+    conditions["dollar_low"]= dollar_low;
+  }
+  var dollar_high = req.query.dollar_high;
+  if (dollar_high) {
+    conditions["dollar_high"]= dollar_high;
+  }
+  console.log("query "+JSON.stringify(req.query)+ " body " + JSON.stringify(req.body)+ "conditions "+ JSON.stringify(conditions));
   Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
@@ -60,8 +68,7 @@ router.get('/', function(req, res) {
                                         "user": req.user,
                                          subPageName: subPageName,
                                          searchText: searchText,
-                                         conditions: conditions,
-                                         req: req});
+                                         conditions: conditions});
     }
   });
 });

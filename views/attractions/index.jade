@@ -14,7 +14,6 @@ block content
         a(href='/login') Login or signup
         span &nbsp;to add your own attraction.
   h1= subPageName || pageName
-  h2= JSON.stringify(conditions)
 
   .row
     .col-sm-4.col-md-3.sidebar
@@ -23,7 +22,7 @@ block content
         span.icon-bar
         span.icon-bar
       .list-group
-        form(action='/attractions' method='GET')
+        form(action='/attractions/' method='GET')
           .form-group
             span.list-group-item.active Submenu
               span.pull-right#slide-submenu
@@ -43,15 +42,8 @@ block content
                 option(value="Restaurant") Restaurant
                 option(value="Yard Sale") Yard Sale
                 option(value="Performance") Performance
-            a.list-group-item(href="#") Region &nbsp;
-              select(name="city") 
-                option(value="")
-                option(value="Clothing") Clothing 
-                option(value="Electronics") Electronics 
-                option(value="Truck") Truck
-                option(value="Restaurant") Restaurant
-                option(value="Yard Sale") Yard Sale
-                option(value="Performance") Performance 
+            a.list-group-item(href="#") Zip Code
+              input(type="text", name="zip", placeholder="15217")
             a.list-group-item(href="#") Lowest Price
               input(type="text", name="dollar_low", placeholder="5")
             a.list-group-item(href="#") Highest Price
