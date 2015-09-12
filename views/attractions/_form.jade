@@ -37,10 +37,10 @@
 
 .form-group
   span Lowest Price
-  input.form-control(type="text", name="dollar_low", placeholder="5")
+  input.form-control(type="text", name="dollar_low", placeholder="5", value=attraction.dollar_low)
 .form-group
   span Highest Price
-  input.form-control(type="text", name="dollar_high", placeholder="20")
+  input.form-control(type="text", name="dollar_high", placeholder="20", value=attraction.dollar_high)
   
 .row
   if (attraction.photo)
