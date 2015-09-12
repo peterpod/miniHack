@@ -1,0 +1,12 @@
+if ((!attractions) || (!attractions.length))
+  p No posts yet!
+else
+  ul(style="list-style-type: none; margin: 3px; padding: 0;")
+    - var foundOne = false
+    - each attraction in attractions
+      if (currentUser && currentUser.starredAttraction.indexOf(attraction._id) >= 0)
+        - foundOne = true
+        include _attraction
+    if (!foundOne)
+      p
+        strong No favorite posts yet!

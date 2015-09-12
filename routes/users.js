@@ -26,7 +26,7 @@ router.use(function(req, res, next) {
 router.route('/:id')
      //Show
     .get(function(req, res) {
-      Attraction.find({user_id: req.user._id}, null, {sort: {"created_at":-1}}, function(er, attractions) {
+      Attraction.find({}, null, {sort: {"created_at":-1}}, function(er, attractions) {
         if (er) throw er;
         User.findById(req.params.id, function(err,user) {
           if (err) {throw err} else {

@@ -1,0 +1,12 @@
+if ((!attractions) || (!attractions.length))
+  p No posts yet!
+else
+  ul(style="list-style-type: none; margin: 3px; padding: 0;")
+    - var foundOne = false
+    - each attraction in attractions
+      if (currentUser && currentUser._id == attraction.user_id)
+        - foundOne = true
+        include _attraction
+    if (!foundOne)
+      p
+        strong You have no posts yet!

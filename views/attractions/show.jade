@@ -2,10 +2,12 @@ extends ../layout
 
 block content
   .row
-    .col-xs-6
+    .col-xs-3
       include _attraction
-    .col-xs-6
-      img(src=mapUrl,alt='Attraction Google Map')
-  
-  p
-    a.btn.btn-primary(href='/attractions/') Back to Attractions
+    .col-xs-8.col-xs-offset-1
+      p
+        img(src=mapUrl,alt='Attraction Google Map')
+
+      p &nbsp;
+      p 
+        a.btn.btn-primary(href='/attractions/') Back to Attractions

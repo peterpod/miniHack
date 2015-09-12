@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h1.
+  h1
     My Account Settings
     
   if (user.photo)
@@ -19,8 +19,9 @@ block content
   label Zip:
   p #{user.zip || 'N/A'}
   p
-    a.btn.btn-primary(href='/users/#{currentUser._id}/edit') Edit Account Details
     form(action='/users/#{currentUser._id}',method='post',enctype='application/x-www-form-urlencoded')
+      a.btn.btn-primary(href='/users/#{currentUser._id}/edit') Edit Account Details
+      span &nbsp;&nbsp;
       input(type='hidden',value='DELETE',name='_method')
       button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete your account? All posts you have made will be deleted.');", type='submit').
         Delete Account
@@ -29,6 +30,11 @@ block content
   h1 My Posts
   
   p
+    br
     a.btn.btn-primary(href='/attractions/new') Add New Attraction
   
-  include ../attractions/_attractions
+  include ../attractions/_myposts
+  
+  br
+  h1 My Favorites
+  include ../attractions/_favorites

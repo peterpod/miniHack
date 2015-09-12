@@ -1,4 +1,15 @@
-.well.well-sm 
+li.well.well-sm(style="margin: 5px; width: 330px; vertical-align: top; display: inline-block;")
+  p
+    if (typeof user !== 'undefined' && user)
+      if(user.starredAttraction.indexOf(attraction._id) >= 0)
+        a.btn.btn-warning(href='/users/#{user._id}/attraction/#{attraction._id}/remove') Remove from Favorites
+      else
+        a.btn.btn-primary(href='/users/#{user._id}/attraction/#{attraction._id}/add') Add to Favorites
+      if (currentUser && currentUser._id == attraction.user_id)
+        span &nbsp;&nbsp;&nbsp;
+        span
+          strong
+            mark &nbsp;My Post&nbsp;
   h2= attraction.title || 'N/A'
   p
     if (attraction.address)
@@ -8,19 +19,14 @@
     if (attraction.state)
       = attraction.state + ' '
     if (attraction.zip)
-      = attraction.zip
-    if (typeof user !== 'undefined' && user)
-      if(user.starredAttraction.indexOf(attraction._id) >= 0)
-        a(href='/users/#{user._id}/attraction/#{attraction._id}/remove') Remove from Favorites
-      else
-        a(href='/users/#{user._id}/attraction/#{attraction._id}/add') Add to Favorite
-        
-    p price range
-      if (attraction.dollar_low && attraction.dollar_high)
+      = attraction.zip 
+    
+    if (attraction.dollar_low && attraction.dollar_high)
       p
-        |&nbsp;
+        label Price Range:
+        |&nbsp;$
         = attraction.dollar_low 
-        |&nbsp;to&nbsp; 
+        |&nbsp;to&nbsp;$
         = attraction.dollar_high
   p
     label Category:&nbsp;
@@ -47,13 +53,13 @@
   br
   p
     if (subPageName != "AttractionShow")
-      p
-        a.btn.btn-default(href='/attractions/#{attraction._id}') Show Details
-    if (currentUser && currentUser._id == attraction.user_id)
-      p
-        a.btn.btn-primary(href='/attractions/#{attraction._id}/edit') Edit Post
-      p
-        form(action='/attractions/#{attraction._id}',method='post',enctype='application/x-www-form-urlencoded')
-          input(type='hidden',value='DELETE',name='_method')
-          button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete this post?');", type='submit').
-            Delete Post
+      form(action='/attractions/#{attraction._id}',method='post',enctype='application/x-www-form-urlencoded')
+        p
+          a.btn.btn-default(href='/attractions/#{attraction._id}') Details
+          span &nbsp;&nbsp;&nbsp;
+          if (currentUser && currentUser._id == attraction.user_id)
+            a.btn.btn-primary(href='/attractions/#{attraction._id}/edit') Edit Post
+            span &nbsp;&nbsp;&nbsp;
+            input(type='hidden',value='DELETE',name='_method')
+            button.btn.btn-danger(onclick="return confirm('Are you sure you want to delete this post?');", type='submit').
+              Delete Post
