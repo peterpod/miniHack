@@ -43,6 +43,15 @@ router.get('/', function(req, res) {
   if (searchText) {
     conditions["$text"]= {"$search": searchText};
   }
+  var category = req.params.category;
+  if (category) {
+    conditions["category"]= {"category": category};
+  }
+  var city = req.query.city;
+  if (city) {
+    conditions["city"]= {"city": city};
+  }
+
   Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
@@ -50,7 +59,9 @@ router.get('/', function(req, res) {
       res.render('attractions/index', { "attractions": attractions,
                                         "user": req.user,
                                          subPageName: subPageName,
-                                         searchText: searchText});
+                                         searchText: searchText,
+                                         conditions: conditions,
+                                         req: req});
     }
   });
 });
