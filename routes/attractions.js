@@ -51,15 +51,17 @@ router.get('/', function(req, res) {
   if (zip) {
     conditions["zip"]= zip;
   }
-  var dollar_low = req.query.dollar_low;
-  if (dollar_low) {
-    conditions["dollar_low"]= dollar_low;
+  // to be used for price range
+  var low = req.query["dollar_low"];
+  var high = req.query["dollar_high"];
+  // if price range is specified, generate custom mongodb query
+  if (low && high){
+    var rangeCondition = { $and: [{"dollar_low": {$lte : high}}, {"dollar_high": {$gt: low}}]};
+    rangeCondition["$and"].push(conditions);
+    // combine this query with the conditions from before
+    conditions = rangeCondition;
   }
-  var dollar_high = req.query.dollar_high;
-  if (dollar_high) {
-    conditions["dollar_high"]= dollar_high;
-  }
-  console.log("query "+JSON.stringify(req.query)+ " body " + JSON.stringify(req.body)+ "conditions "+ JSON.stringify(conditions));
+
   Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
