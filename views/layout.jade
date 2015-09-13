@@ -13,6 +13,9 @@ html
                        {name:"About", url: "/about"}];
     nav.navbar-default.navbar
       .container.topnav
+        .navbar-header
+          a.navbar-brand(href="/")
+            img(style="max-width:100px; margin-top: -12px;", src="/img/logo.gif")
         ul.nav.navbar-nav
           each o in pageList
             if (o.name==pageName)
@@ -48,7 +51,8 @@ html
       br
       .well.well-sm
         footer.footer
-          p.text-center  Copyright (c) 2015
+          p
+            b.text-center Feedr (c) 2015
   
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js")
   script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js")
