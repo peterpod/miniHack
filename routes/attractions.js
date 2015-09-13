@@ -142,7 +142,7 @@ router.delete('/:id', function(req,res) {
           attraction.remove(function (err, attraction){
               if (err) {return console.error(err);}
               else {
-                req.flash('success', '"' + 'attraction.title' + '" successfully deleted.');
+                req.flash('Successfully deleted post.');
                 res.redirect("/attractions");
                 }
             });
