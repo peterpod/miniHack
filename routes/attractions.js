@@ -46,6 +46,7 @@ router.get('/', function(req, res) {
   var category = req.query.category;
   if (category) {
     conditions["category"]= category;
+    if (!subPageName) { subPageName = category }
   }
   var zip = req.query.zip;
   if (zip) {
@@ -69,8 +70,7 @@ router.get('/', function(req, res) {
       res.render('attractions/index', { "attractions": attractions,
                                         "user": req.user,
                                          subPageName: subPageName,
-                                         searchText: searchText,
-                                         conditions: conditions});
+                                         valueHolder: req.query});
     }
   });
 });

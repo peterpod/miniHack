@@ -16,7 +16,7 @@ block content
   h1= subPageName || pageName
 
   .row
-    .col-sm-4.col-md-3.sidebar
+    .col-xs-3.sidebar
       .mini-submenu
         span.icon-bar
         span.icon-bar
@@ -27,31 +27,32 @@ block content
             span.list-group-item.active Submenu
               span.pull-right#slide-submenu
                 i.fa.fa-times
-            a.list-group-item(href="#") Type &nbsp;
-              select(name="type") 
-                option(value="")
-                option(value="Business") Business 
-                option(value="Food") Food 
-                option(value="Event") Event
-            a.list-group-item(href="#") Category
-              select(name="category") 
-                option(value="" name="category")
-                option(value="Clothing" name="category") Clothing 
-                option(value="Electronics" name="category") Electronics 
-                option(value="Truck") Truck
-                option(value="Restaurant") Restaurant
-                option(value="Yard Sale") Yard Sale
-                option(value="Performance") Performance
+            
+            -
+              var all = [{name: "Type", vals: ["Business", "Food", "Event"]},
+                          {name: "Category", vals: ["Truck", "Restaurant",
+                                                     "Clothing","Electronics",
+                                                     "Yard Sale",
+                                                     "Performance"]}];
+            a.list-group-item(href="#") Text Search
+              input(type="text", value=valueHolder.search, name="search", placeholder="Search")
+            - each o in all
+              a.list-group-item(href="#")
+                = o.name + ' '
+                select(type="text", name=o.name.toLowerCase())
+                  option(value="")
+                  - each oo in o.vals
+                    if (valueHolder[o.name.toLowerCase()] == oo)
+                      option(value=oo, selected)= oo
+                    else
+                      option(value=oo)= oo
             a.list-group-item(href="#") Zip Code
-              input(type="text", name="zip", placeholder="15217")
+              input(type="text", value=valueHolder.zip, name="zip", placeholder="15217")
             a.list-group-item(href="#") Lowest Price
-              input(type="text", name="dollar_low", placeholder="5")
+              input(type="text", value=valueHolder.dollar_low,name="dollar_low", placeholder="5")
             a.list-group-item(href="#") Highest Price
-              input(type="text", name="dollar_high", placeholder="20")  
+              input(type="text", value=valueHolder.dollar_high,name="dollar_high", placeholder="20")  
             a.list-group-item(href="#")
               button.btn.btn-default(type="submit") Filter Attractions
-
-  if (searchText)
-    p
-      i Showing only results matching search term "#{searchText}"
-  include _attractions
+    .col-xs-9
+      include _attractions
