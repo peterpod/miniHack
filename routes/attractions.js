@@ -43,6 +43,25 @@ router.get('/', function(req, res) {
   if (searchText) {
     conditions["$text"]= {"$search": searchText};
   }
+  var category = req.query.category;
+  if (category) {
+    conditions["category"]= category;
+  }
+  var zip = req.query.zip;
+  if (zip) {
+    conditions["zip"]= zip;
+  }
+  // to be used for price range
+  var low = req.query["dollar_low"];
+  var high = req.query["dollar_high"];
+  // if price range is specified, generate custom mongodb query
+  if (low && high){
+    var rangeCondition = { $and: [{"dollar_low": {$lte : high}}, {"dollar_high": {$gt: low}}]};
+    rangeCondition["$and"].push(conditions);
+    // combine this query with the conditions from before
+    conditions = rangeCondition;
+  }
+
   Attraction.find(conditions, null, {sort: {"created_at":-1}}, function (err,attractions) {
     if (err) {
       return console.error(err);
@@ -50,7 +69,8 @@ router.get('/', function(req, res) {
       res.render('attractions/index', { "attractions": attractions,
                                         "user": req.user,
                                          subPageName: subPageName,
-                                         searchText: searchText});
+                                         searchText: searchText,
+                                         conditions: conditions});
     }
   });
 });
